@@ -28,7 +28,7 @@ Class: fa-rotate-by
 
 Style: --fa-rotate-angle: 47deg
 
-# How far to go?
+## How far to go?
 
 A lot can be done with FA. But how much can be put into an "easy-to-use" dialog?
 
