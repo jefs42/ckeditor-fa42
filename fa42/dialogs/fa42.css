@@ -1,0 +1,36 @@
+div.cke_dialog_ui_input_select, .cke_dialog_ui_input_select{ width: 100%; }
+#fa42-iconlist {
+    list-style: none; padding: 0; margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    flex-wrap:wrap;
+    align-items: self-start;
+    height: 440px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    padding: 0.25rem;
+}
+#fa42-iconlist li {
+    display:block;
+    width: 17%;
+    height: 4.25rem;
+    text-align:center;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    padding: 4px;
+}
+#fa42-iconlist li:hover {background-color: #f3f3f3}
+#fa42-iconlist li *:first-child {margin: 0.25rem 0}
+#fa42-iconlist div {text-align:center;white-space:break-spaces}
+.fa42-icon {padding: 0 0.25rem}
+#fa42IconSearch {margin:0.5rem 0;position:relative;}
+#fa42IconSearch input {border:1px solid #e7e7e7;padding:4px;width:98%}
+#fa42IconSearch i {color:#999;position:absolute;right:0.5rem;top:0.25rem;font-size:130%;}
+.fa42IconPreview {
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid #d7d7d7;
+}
+#fa42-icon-preview, #fa42-icon-preview2 { display: inline-block }
