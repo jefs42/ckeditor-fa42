@@ -31,7 +31,6 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
     var config = editor.fa42Config;
     var colorDialog = editor.plugins.colordialog; // setup for pre-selecting the color of the icon
     var fa42Tag = config.fa42Tag; // tag to use for inclusion, default <i></i>
-    console.log(config.fa42Path);
     // get Font Awesome classes from main stylesheet
     $.ajax({
        url: config.fa42Path,
@@ -49,10 +48,8 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                 cpline = vregex.exec(response);
                 faType = 'free';
             }
-            console.log(config);
             fa42Version = config.fa42Version ? config.fa42Version : (cpline ? cpline[1] : 'Un.know.n');
             fa42Level = config.fa42Level ? config.fa42Level : faType;
-            console.log(fa42Version);
             var parts = fa42Version.split(".");
             fa42Major = parseInt(parts[0]);
             fa42Minor = parseInt(parts[1]);
@@ -95,7 +92,6 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                      fa42Brands.push(match[1]);
                  }
               }
-              console.log(fa42Brands);
         },
         error: function (jqXHR, status, errorMsg) {
             // brands icons won't display nicely....
@@ -144,8 +140,6 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                     //selectList.add('--------','fa-regular');
                 }
                 //selectList.add('Brands','fab');
-                console.log(selectList);
-
             break;
         }
     }
@@ -193,7 +187,7 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                                         {
                                             type: 'html',
                                             id: 'fa42Icon',
-                                            html: '<div id="fa42-icon"><label>Font Awesome Icon Preview</label><p class="fa42IconPreview"><' + fa42Tag + ' id="fa42-icon-preview" class="' + fa42Regular + ' fa-flag"></' + fa42Tag + '></p></div>',
+                                            html: '<div id="fa42-icon"><label>Font Awesome Icon Preview</label><p class="fa42IconPreview"><' + fa42Tag + ' id="fa42-icon-preview-wrapper" class="fa"><' + fa42Tag + ' id="fa42-icon-preview" class="' + fa42Regular + ' fa-flag"></' + fa42Tag + '></' + fa42Tag + '></p></div>',
                                             onShow: function() {
                                                 // set global preview box 1 for later use
                                                 previewIcon = document.getElementById('fa42-icon-preview');
@@ -231,7 +225,7 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                                                 _fa42ChangeFontStyle(this.getValue())
                                             }
                                         });
-                                    if (fa42Major > 4) {
+                                    if (fa42Major > 4 && fa42Level == 'pro') {
                                         children.push({
                                             type: 'checkbox',
                                             id: 'fa42-fa-swap-opacity',
@@ -327,131 +321,197 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                         children: [
                             {
                                     type: 'vbox',
-                                    children: [
-                                        {
-                                            type: 'html',
-                                            html: '<label style="font-weight:bold">Transformations</label>'
-                                        },
-                                        {
-                                            type: 'hbox',
-                                            children: [
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-rotate-90',
-                                                    label: ' Rotate 90deg',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-rotate-90');
+                                    children: (function() {
+                                        var children = [
+                                            {
+                                                type: 'html',
+                                                html: '<label style="font-weight:bold">Transformations</label>'
+                                            },
+                                            {
+                                                type: 'hbox',
+                                                children: [
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-rotate-90',
+                                                        label: ' Rotate 90deg',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-rotate-90');
+                                                        }
+                                                    },
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-rotate-180',
+                                                        label: ' Rotate 180deg',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-rotate-180');
+                                                        }
+                                                    },
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-rotate-270',
+                                                        label: ' Rotate 270deg',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-rotate-270');
+                                                        }
+                                                    }                                            ]
+                                            },
+                                            {
+                                                type: 'hbox',
+                                                children: [
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-flip-horizontal',
+                                                        label: ' Flip Horizontal',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-flip-horizontal');
+                                                        }
+                                                    },
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-flip-vertical',
+                                                        label: ' Flip Vertical',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-flip-vertical');
+                                                        }
+                                                    },
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-flip-both',
+                                                        label: ' Flip Both',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-flip-both');
+                                                        }
+                                                    }                                            ]
+                                            },
+                                            {
+                                                type: 'html',
+                                                html: '<label style="font-weight:bold">Animations</label>'
+                                            },
+                                            {
+                                                type: 'hbox',
+                                                children: (function() {
+                                                    var children = [
+                                                    {
+                                                        type: 'checkbox',
+                                                        id: 'fa42-fa-spin',
+                                                        label: ' Spin',
+                                                        onClick: function() {
+                                                            _fa42UpdateTransformations(this.getValue(), 'fa-spin');
+                                                        }
                                                     }
-                                                },
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-rotate-180',
-                                                    label: ' Rotate 180deg',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-rotate-180');
+                                                    ];
+                                                    if (fa42Major > 5) {
+                                                        children.push(
+                                                            {
+                                                                type: 'checkbox',
+                                                                id: 'fa42-fa-spin-pulse',
+                                                                label: 'Pulse',
+                                                                onClick: function() {
+                                                                    _fa42UpdateTransformations(this.getValue(), 'fa-spin-pulse');
+                                                                }
+                                                            },
+                                                            {
+                                                                type: 'checkbox',
+                                                                id: 'fa42-fa-spin-reverse',
+                                                                label: ' Spin Reverse',
+                                                                onClick: function() {
+                                                                    var dialog = CKEDITOR.dialog.getCurrent();
+                                                                    // one of fa-spin or fa-spin-pulse must be selected to spin reverse
+                                                                    // auto set fa-spin if neither are selected
+                                                                    if (dialog.getValueOf('effects', 'fa42-fa-spin') == false && dialog.getValueOf('effects', 'fa42-fa-spin-pulse') == false) {
+                                                                        dialog.setValueOf('effects', 'fa42-fa-spin', true);
+                                                                        _fa42UpdateTransformations(true, 'fa-spin');
+                                                                    }
+                                                                    _fa42UpdateTransformations(this.getValue(), 'fa-spin-reverse');
+                                                                }
+                                                            }
+                                                        );
+                                                    } else {
+                                                        children.push(
+                                                            {
+                                                                type: 'checkbox',
+                                                                id: 'fa42-fa-pulse',
+                                                                label: ' Pulse',
+                                                                onClick: function() {
+                                                                    _fa42UpdateTransformations(this.getValue(), 'fa-pulse');
+                                                                }
+                                                            }
+                                                        );
                                                     }
-                                                },
+                                                    return children;
+                                                })()
+                                            },
+                                        ];
+                                        if (fa42Major > 5) {
+                                            children.push(
                                                 {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-rotate-270',
-                                                    label: ' Rotate 270deg',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-rotate-270');
-                                                    }
-                                                }                                            ]
-                                        },
-                                        {
-                                            type: 'hbox',
-                                            children: [
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-flip-horizontal',
-                                                    label: ' Flip Horizontal',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-flip-horizontal');
-                                                    }
-                                                },
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-flip-vertical',
-                                                    label: ' Flip Vertical',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-flip-vertical');
-                                                    }
-                                                },
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-flip-both',
-                                                    label: ' Flip Both',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-flip-both');
-                                                    }
-                                                }                                            ]
-                                        },
-                                        {
-                                            type: 'html',
-                                            html: '<label style="font-weight:bold">Animations</label>'
-                                        },
-                                        {
-                                            type: 'hbox',
-                                            children: (function() {
-                                                var children = [
-                                                {
-                                                    type: 'checkbox',
-                                                    id: 'fa42-fa-spin',
-                                                    label: ' Spin',
-                                                    onClick: function() {
-                                                        _fa42UpdateTransformations(this.getValue(), 'fa-spin');
-                                                    }
-                                                }
-                                                ];
-                                                if (fa42Major > 5) {
-                                                    children.push(
+                                                    type: 'hbox',
+                                                    children: [
                                                         {
                                                             type: 'checkbox',
-                                                            id: 'fa42fa-spin-pulse',
-                                                            label: 'Pulse',
+                                                            id: 'fa42fa-beat',
+                                                            label: 'Beat',
                                                             onClick: function() {
-                                                                _fa42UpdateTransformations(this.getValue(), 'fa-spin-pulse');
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-beat');
                                                             }
                                                         },
                                                         {
                                                             type: 'checkbox',
-                                                            id: 'fa42-fa-spin-reverse',
-                                                            label: 'Reverse',
+                                                            id: 'fa42fa-fade',
+                                                            label: 'Fade',
                                                             onClick: function() {
-                                                                _fa42UpdateTransformations(this.getValue(), 'fa-spin-reverse');
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-fade');
                                                             }
-                                                        }
-                                                    );
-                                                } else {
-                                                    children.push(
+                                                        },
                                                         {
                                                             type: 'checkbox',
-                                                            id: 'fa42-fa-pulse',
-                                                            label: ' Pulse',
+                                                            id: 'fa42fa-beat-fade',
+                                                            label: 'Beat-Fade',
                                                             onClick: function() {
-                                                                _fa42UpdateTransformations(this.getValue(), 'fa-pulse');
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-beat-fade');
                                                             }
-                                                        }
-                                                    );
+                                                        },
+                                                    ]
+                                                },
+                                                {
+                                                    type: 'hbox',
+                                                    children: [
+                                                        {
+                                                            type: 'checkbox',
+                                                            id: 'fa42fa-bounce',
+                                                            label: 'Bounce',
+                                                            onClick: function() {
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-bounce');
+                                                            }
+                                                        },
+                                                        {
+                                                            type: 'checkbox',
+                                                            id: 'fa42fa-flip',
+                                                            label: 'Flip',
+                                                            onClick: function() {
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-flip');
+                                                            }
+                                                        },
+                                                        {
+                                                            type: 'checkbox',
+                                                            id: 'fa42fa-shake',
+                                                            label: 'Shake',
+                                                            onClick: function() {
+                                                                _fa42UpdateTransformations(this.getValue(), 'fa-shake');
+                                                            }
+                                                        },
+                                                    ]
                                                 }
-                                                return children;
-                                            })()
-                                        },
-                                    ]
-                            },
-                            {
-                                type: 'html',
-                                id: 'fa42Icon',
-                                html: '<div id="fa42-icon2"><label>Font Awesome Icon Preview</label><p class="fa42IconPreview"><' + fa42Tag + ' id="fa42-icon-preview2" class="' + fa42Regular + ' fa-flag"></' + fa42Tag + '></p></div>',
-                                onShow: function() {
-                                    // set global preview box 2 for later use
-                                    previewIcon2 = document.getElementById('fa42-icon-preview2');
-                                }
+                                            );
+                                        }
+                                        return children;
+                                    })()
                             }
-
                         ]
+                    },
+                    {
+                        type: 'html',
+                        html: '<p style="line-height:1rem"><b style="font-weight:bold">Notes:</b> Many of the transformations and animations can not "stack" directly on the icon. The FontAwesome<br>CSS rules that create these various effects can overrule other effects. There are some interesting side effects<br> sometimes though like FlipHorizontal + Flip.<br><br>You can stack these effects in your source code by layering elements: <br>&lt;span class="fa fa-shake">&lt;i class="fa fa-smile fa-beat">&lt;/i>&lt;/span><br><br>Hopefully, I can find a way to do that via this dialog on the Advanced tab in future versions</p>'
                     }
                 ]
             },
