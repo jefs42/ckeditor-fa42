@@ -41,3 +41,7 @@ For example rotate and flip can't really be used directly on a single tag, one c
 ```
 
 This may be *too* avanced usage to try to put into what should be a fairly simple to use dialog...
+
+## CKEditor4 EOL (June 2023)
+
+Now that is ready, already time to re-code for CKEditor 5?
