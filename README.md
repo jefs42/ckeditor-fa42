@@ -21,7 +21,7 @@ config.extraPlugins = 'fa42'; // only extra plugin
 config.extraPlugins = 'etc,etc,etc,fa42'; // add to other extra plugins
 ```
 
-**Note:** Generally speaking, CKEditor does not like empty tags and will remove them when saving. To allow your tag (default <i>) to not be removed, add the following *before* ```CKEDITOR.editorConfig = function( config ) {``` in your main config.js:
+**Note:** Generally speaking, CKEditor does not like empty tags and will remove them when saving. To allow your tag (default i) to not be removed, add the following *before* ```CKEDITOR.editorConfig = function( config ) {``` in your main config.js:
 
 ```js
 CKEDITOR.dtd.$removeEmpty['i'] = 1; // replace or duplicate if you want to use <span> or any other tag instead of <i>
