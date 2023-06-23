@@ -37,7 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 ## Configuration Options
 
-The fa42 plugin defaults to FontAwesome v6.4.0 Free on Cloudflare CDN, and using the <i> tag for icons. The plugin will try to determine the version of FontAwesome from the CSS file being used.
+The fa42 plugin defaults to FontAwesome v6.4.0 Free on Cloudflare CDN, and using the i tag for icons. The plugin will try to determine the version of FontAwesome from the CSS file being used.
 
 ```js
 config.fa42 = {
