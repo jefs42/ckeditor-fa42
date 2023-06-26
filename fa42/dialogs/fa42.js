@@ -32,20 +32,18 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
     var colorDialog = editor.plugins.colordialog; // setup for pre-selecting the color of the icon
     var fa42Tag = config.fa42Tag; // tag to use for inclusion, default <i></i>
     // get Font Awesome classes from main stylesheet
-    $.ajax({
-       url: config.fa42Path,
-       type: 'get',
-       dataType: 'html',
-       async: false,
-       success: function(response) {
-            fa42CSS = response;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState !== 4) return;
+        if (this.status === 200) {
+            fa42CSS = this.responseText;
             // Try to find version and pro/free
             var vregex = new RegExp(/Font Awesome Pro (\d?\d\.\d?\d\.\d?\d)/,"g");
-            var cpline = vregex.exec(response);
+            var cpline = vregex.exec(fa42CSS);
             var faType = 'pro';
             if (!cpline) {
                 vregex = new RegExp(/Font Awesome.*(\d?\d\.\d?\d\.\d?\d)/,"g");
-                cpline = vregex.exec(response);
+                cpline = vregex.exec(fa42CSS);
                 faType = 'free';
             }
             fa42Version = config.fa42Version ? config.fa42Version : (cpline ? cpline[1] : 'Un.know.n');
@@ -71,13 +69,16 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                 }
              }
              // getFontAwesomeBrands();
-       },
-       error: function (jqXHR, status, errorMsg) {
-        alert("Error loading Font Awesome CSS: \n" + config.fa42Path);
-       }
-    });
+        } else {
+            alert("Error loading Font Awesome CSS: \n" + config.fa42Path);
+        }
+    }
+    xhr.open('GET', config.fa42Path, false);
+    xhr.send();
+
     function getFontAwesomeBrands() {
      // get Font Awesome brand classes from main stylesheet
+     /*
      $.ajax({
         url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/' + fa42Version + '/css/brands.min.css',
         type: 'get',
@@ -97,6 +98,7 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
             // brands icons won't display nicely....
         }
      });
+     */
     }
 	function getSizeOptions(selectList){
         for (i in fa42Sizes) {
@@ -506,12 +508,17 @@ var fa42DialogObj = CKEDITOR.dialog.add('fa42Dialog', function( editor ) {
                                         }
                                         return children;
                                     })()
+                            },
+                            {
+                                type: 'html',
+                                id: 'fa42Icon',
+                                html: '<div id="fa42-icon2"><label>Font Awesome Icon Preview</label><p class="fa42IconPreview"><' + fa42Tag + ' id="fa42-icon-preview2" class="' + fa42Regular + ' fa-flag"></' + fa42Tag + '></p></div>',
+                                onShow: function() {
+                                    // set global preview box 2 for later use
+                                    previewIcon2 = document.getElementById('fa42-icon-preview2');
+                                }
                             }
                         ]
-                    },
-                    {
-                        type: 'html',
-                        html: '<p style="line-height:1rem"><b style="font-weight:bold">Notes:</b> Many of the transformations and animations can not "stack" directly on the icon. The FontAwesome<br>CSS rules that create these various effects can overrule other effects. There are some interesting side effects<br> sometimes though like FlipHorizontal + Flip.<br><br>You can stack these effects in your source code by layering elements: <br>&lt;span class="fa fa-shake">&lt;i class="fa fa-smile fa-beat">&lt;/i>&lt;/span><br><br>Hopefully, I can find a way to do that via this dialog on the Advanced tab in future versions</p>'
                     }
                 ]
             },
