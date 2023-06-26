@@ -16,12 +16,13 @@ Place the fa42/ directory into your CKEditor installation folder's /plugins/ dir
 
 In your config.js file, add fa42 to config.extraPlugins directive
 
+**Req:** This plugin requires the Color Dialog plugin - https://ckeditor.com/cke4/addon/colordialog
+
 ```
-config.extraPlugins = 'fa42'; // only extra plugin
-config.extraPlugins = 'etc,etc,etc,fa42'; // add to other extra plugins
+config.extraPlugins = 'colordialog,fa42'; 
 ```
 
-**Note:** Generally speaking, CKEditor does not like empty tags and will remove them when saving. To allow your tag (default <i>) to not be removed, add the following *before* ```CKEDITOR.editorConfig = function( config ) {``` in your main config.js:
+**Note:** Generally speaking, CKEditor does not like empty tags and will remove them when saving. To allow your tag (default i) to not be removed, add the following *before* ```CKEDITOR.editorConfig = function( config ) {``` in your main config.js:
 
 ```js
 CKEDITOR.dtd.$removeEmpty['i'] = 1; // replace or duplicate if you want to use <span> or any other tag instead of <i>
@@ -37,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 ## Configuration Options
 
-The fa42 plugin defaults to FontAwesome v6.4.0 Free on Cloudflare CDN, and using the <i> tag for icons. The plugin will try to determine the version of FontAwesome from the CSS file being used.
+The fa42 plugin defaults to FontAwesome v6.4.0 Free on Cloudflare CDN, and using the i tag for icons. The plugin will try to determine the version of FontAwesome from the CSS file being used.
 
 ```js
 config.fa42 = {
