@@ -47,10 +47,10 @@ CKEDITOR.plugins.add('fa42', {
     }); // end plugins.add
 
     function fa42MakeID(length) {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-        let counter = 0;
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        var counter = 0;
         while (counter < length) {
           result += characters.charAt(Math.floor(Math.random() * charactersLength));
           counter += 1;

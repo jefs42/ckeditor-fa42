@@ -694,14 +694,24 @@ function _fa42Search(keyword) {
     var iconList = document.querySelectorAll(".fa42-icon");
     if (keyword == '_clear' || keyword == '') {
         document.getElementById('fa42IconSearchField').value = '';
+        for (i in iconList) {
+            iconList[i].style.display = 'block';
+        }
+        /*
         iconList.forEach(icon => {
             icon.style.display = 'block';
         });
+        */
         return;
     }
     if (keyword.length > 2) {
+        for (i in iconList) {
+            iconList[i].style.display = iconList[i].id.match(keyword) ? 'block' : 'none';
+        }
+        /*
         iconList.forEach(icon => {
             icon.style.display = icon.id.match(keyword) ? 'block' : 'none';
         });
+        */
     }
 }
