@@ -4,6 +4,8 @@ Font Awesome (FA) plugin for CKEditor 4
 
 Covering FA versions 4 - 6, free and pro. Icon selection with preview. Style, sizing, color options. Effects and animations like spin, rotate, beat, bounce, flip. All relative to the version of Font Awesome you use it with.
 
+**Note:** The icons in the main list that seem *broken* are brands. Check the box for "Brand icon?" under the preview window and it will add the brands class and show correctly.
+
 ![FontAwesome for CKEditor by fortyTwo IT](https://fortytwo-it.com/wp-content/uploads/2023/06/fa42Main.png)
 
 Double click the icon in the editor to re-open the dialog box with the icons current settings to edit.
